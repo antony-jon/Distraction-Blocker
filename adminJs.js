@@ -9,6 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Redirect to service provider dashboard
     serviceProviderButton.addEventListener("click", function () {
-        window.location.href = "adminDashboard.html";
+        window.location.href = "adminisAuth.html";
     });
 });
