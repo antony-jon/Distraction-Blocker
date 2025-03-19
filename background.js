@@ -25,7 +25,8 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
             if (isDistracting) {
                 console.log(`Blocking site: ${sender.url}`);
-                chrome.tabs.remove(sender.tab.id);
+                injectCSSFile(sender.tab.id);
+                // chrome.tabs.remove(sender.tab.id);
             }
         }
     }
@@ -102,3 +103,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ status: "alive" });
     }
 });
+
+function injectCSSFile(tabId) {
+    chrome.scripting.insertCSS({
+        target: { tabId: tabId },
+        files: ["css/style.css"]
+    });
+}
