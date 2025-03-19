@@ -25,7 +25,7 @@ async function serviceProviderSignIn() {
             messageElement.textContent = "Login successful! Redirecting...";
             messageElement.style.color = "green";
             setTimeout(() => {
-                window.location.href = "serviceProviderDashboard.html";
+                window.location.href = "blockSites.html";
             }, 2000);
         } else {
             messageElement.textContent = data.message;

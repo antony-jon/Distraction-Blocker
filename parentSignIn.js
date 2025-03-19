@@ -17,7 +17,7 @@ document.getElementById("signInForm").addEventListener("submit", async function 
 
         if (data.success) {
             alert("Sign in successful!");
-            window.location.href = "dashboard.html";  // Redirect to dashboard
+            window.location.href = "blockSites.html";  // Redirect to dashboard
         } else {
             document.getElementById("errorMessage").textContent = data.message;
             document.getElementById("errorMessage").style.display = "block";

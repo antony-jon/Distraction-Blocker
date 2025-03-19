@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const adminRoutes = require("./routes/adminRoutes");
 const parentRoutes = require("./routes/parentRoutes");
-const serviceProviderRoutes = require("./routes/serviceProviderRoutes"); // Added Service Provider Routes
+const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
+const siteRoutes = require("./routes/siteRoutes"); // 🆕 Import site routes
 
 dotenv.config();
 connectDB();
@@ -14,7 +15,8 @@ app.use(express.json());
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/parent", parentRoutes);
-app.use("/api/service-provider", serviceProviderRoutes); // Added Service Provider Endpoint
+app.use("/api/service-provider", serviceProviderRoutes);
+app.use("/api/sites", siteRoutes); // 🆕 Add site routes
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
