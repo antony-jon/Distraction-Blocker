@@ -2,6 +2,7 @@ import CONFIG from './config.js';
 const GEMINI_API_KEY = CONFIG.GEMINI_API_KEY;
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"; 
 
+
 chrome.alarms.create("keepAlive", { periodInMinutes: 4 });
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "keepAlive") {
@@ -29,7 +30,6 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     }
 });
 
-<<<<<<< HEAD
 async function isSchoolOrCollege(lat, lon, radius = 1000) {
     const overpassUrl = "https://overpass-api.de/api/interpreter";
     
@@ -44,10 +44,6 @@ async function isSchoolOrCollege(lat, lon, radius = 1000) {
     `;
     
     const url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
-=======
-async function isSchoolOrCollege(location) {
-    const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is there a school or college within radius of 1km ? Respond with "yes" or "no".`;
->>>>>>> aa5a904f610ac5c789d84cc3ca06b09645a94a2f
 
     try {
         const response = await fetch(url);
