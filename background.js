@@ -11,12 +11,14 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
+
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     if (message.type === "location") {
         const location = message.data;
         console.log("Received location:", location);
 
-        const atSchool = await isSchoolOrCollege(location);
+        // const atSchool = await isSchoolOrCollege(location.latitude, location.longitude);
+        const atSchool = true;
         console.log(`User at school/college: ${atSchool}`);
 
         if (atSchool) {
@@ -26,29 +28,40 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             if (isDistracting) {
                 console.log(`Blocking site: ${sender.url}`);
                 injectCSSFile(sender.tab.id);
-                // chrome.tabs.remove(sender.tab.id);
+                setTimeout(() => {
+                    console.log("After 2 seconds delay");
+                    chrome.tabs.remove(sender.tab.id);
+                }, 2000);
             }
         }
     }
 });
 
-async function isSchoolOrCollege(location) {
-    const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is there a school or college within radius of 1km ? Respond with "yes" or "no".`;
+async function isSchoolOrCollege(lat, lon, radius = 2000) {
+    const overpassUrl = "https://overpass-api.de/api/interpreter";
+    
+    // Overpass QL query to find schools and universities within the given radius
+    const query = `
+        [out:json];
+        (
+            node["amenity"="school"](around:${radius}, ${lat}, ${lon});
+            node["amenity"="university"](around:${radius}, ${lat}, ${lon});
+        );
+        out body;
+    `;
+    
+    const url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
 
     try {
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: [{ text: query }] }] })
-        });
-
+        const response = await fetch(url);
         const data = await response.json();
-        const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toLowerCase();
-        return answer === "yes";
+
+        // If results are found, return "Yes", otherwise return "No"
+        return data.elements.length > 0 ? true : false;
     } catch (error) {
-        console.error("Error checking school/college status:", error);
-        return false;
-    }
+        console.error("Error fetching data:", error);
+        return "Error";
+    }
 }
 
 async function isDistractingSite(url) {
@@ -107,6 +120,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 function injectCSSFile(tabId) {
     chrome.scripting.insertCSS({
         target: { tabId: tabId },
-        files: ["css/style.css"]
+        files: ["css/blocked.css"]
     });
 }
