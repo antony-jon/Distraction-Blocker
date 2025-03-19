@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Sign In</title>
-    <link rel="stylesheet" href="popupStyle.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <div id="signInForm">
-        <h4>Sign In</h4>
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
-        <button id="signInSubmit">Sign In</button>
-    </div>
+    <div class="container">
+        <h2>Parent Sign In</h2>
+        <form id="signInForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
 
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+        <p id="errorMessage" style="color: red; display: none;"></p>
+    </div>
     <script src="parentSignIn.js"></script>
 </body>
-
 </html>

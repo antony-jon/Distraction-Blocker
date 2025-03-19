@@ -1,32 +1,30 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const signInButton = document.getElementById("signInSubmit");
+document.getElementById("signInForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); 
 
-    signInButton.addEventListener("click", function () {
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-        if (!email || !password) {
-            alert("Please fill in both fields.");
-            return;
-        }
-
-        // Send credentials to backend for validation
-        fetch("http://localhost:5000/api/parent/signin", {
+    try {
+        const response = await fetch("http://localhost:5000/api/parent/signin", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Login successful!");
-                window.location.href = "parentDashboard.html"; // Redirect to dashboard
-            } else {
-                alert("Invalid credentials. Please try again.");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    });
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert("Sign in successful!");
+            window.location.href = "dashboard.html";  // Redirect to dashboard
+        } else {
+            document.getElementById("errorMessage").textContent = data.message;
+            document.getElementById("errorMessage").style.display = "block";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("errorMessage").textContent = "Server error. Try again later.";
+        document.getElementById("errorMessage").style.display = "block";
+    }
 });
