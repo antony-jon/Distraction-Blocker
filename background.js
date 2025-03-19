@@ -100,7 +100,6 @@ async function isDistractingSite(url) {
         });
         
         const data = await response.json();
-        console.log(data);
         const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toLowerCase();
         if (answer === "yes") {
             console.log(`🚫 The site ${url} is UNPRODUCTIVE.`);
