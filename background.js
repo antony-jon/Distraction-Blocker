@@ -1,6 +1,6 @@
 import CONFIG from './config.js';
 const GEMINI_API_KEY = CONFIG.GEMINI_API_KEY;
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent"; 
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"; 
 
 
 chrome.alarms.create("keepAlive", { periodInMinutes: 4 });
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 async function isSchoolOrCollege(location) {
-    const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is this a school or college? Respond with "yes" or "no".`;
+    const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is there a school or college within radius of 1km ? Respond with "yes" or "no".`;
 
     try {
         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
