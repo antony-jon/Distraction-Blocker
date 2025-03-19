@@ -1,14 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>
-            Distraction Blocker
-        </title>
-    </head>
-    <body>
-        <h1>Distraction Blocker</h1>
-        <p>Manage Blocked Websites:</p>
-        <input type="text" id="siteInput" placeholder="Enter site url">
-        <button id="addSite"></button>
-    </body>
+
+<head>
+    <title>
+        Distraction Blocker
+    </title>
+    <link rel="stylesheet" href="popupStyle.css">
+</head>
+
+<body>
+    <div id="First">
+    <h4>Distraction Blocker</h4>
+        <button id="admin">Admin</button>
+        <button id="user">User</button>
+    </div>
+
+    <div id="User">
+        <h2>Enter Admin code</h2>
+        <input id="code" type="text" placeholder="Enter">
+        <button id="userSubmit">Enter</button>
+    </div>
+
+
+    <script src="popupJs.js"></script>
+   
+</body>
+
 </html>
