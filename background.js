@@ -67,22 +67,21 @@ async function isDistractingSite(url) {
             console.log(`✅ The site ${url} is PRODUCTIVE.`);
         }
         return answer === "yes";
-        // return true;
+        
     } catch (error) {
         console.error("Error checking site status:", error);
         return false;
-        // return true;
     }
 }
 
 let processedDomains = new Set();
 
 chrome.webNavigation.onCompleted.addListener(async (details) => {
-    const baseUrl = new URL(details.url).origin; // Extract base URL (e.g., "https://monkeytype.com")
+    const baseUrl = new URL(details.url).origin; 
 
     if (!processedDomains.has(baseUrl)) {
         console.log(`Checking site: ${baseUrl}`);
-        processedDomains.add(baseUrl); // Mark as processed
+        processedDomains.add(baseUrl); 
 
         chrome.scripting.executeScript({
             target: { tabId: details.tabId },
@@ -96,18 +95,17 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
 
 
 function fetchLocation() {
-    // Inject notification.css before requesting location
+    
     chrome.runtime.sendMessage({ type: "inject_css" });
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
-            // Send location data
+          
             chrome.runtime.sendMessage({
                 type: "location",
                 data: { latitude: position.coords.latitude, longitude: position.coords.longitude }
             });
 
-            // Remove notification.css after getting location
             chrome.runtime.sendMessage({ type: "remove_css" });
         },
         (error) => console.error("Geolocation error:", error),
