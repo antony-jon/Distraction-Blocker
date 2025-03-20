@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userType = localStorage.getItem("userType");
-    const adminCode = localStorage.getItem("adminCode") ; // Ensure it's at least an empty string
-    const userEmail = localStorage.getItem("userEmail"); // Use email instead of userId
+    const adminCode = localStorage.getItem("adminCode") ;
+    const userEmail = localStorage.getItem("userEmail"); 
 
     if (!userType || !userEmail) {
         console.log("Missing authentication details, redirecting...");
@@ -35,7 +35,7 @@ async function blockSite(userType, addedBy, adminCode) {
         const response = await fetch("http://localhost:5000/api/sites/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url, userType, addedBy, adminCode }), // Using email as addedBy
+            body: JSON.stringify({ url, userType, addedBy, adminCode }), 
         });
 
         const data = await response.json();
@@ -54,7 +54,7 @@ async function blockSite(userType, addedBy, adminCode) {
     }
 }
 
-// 📌 Fetch blocked sites
+
 async function fetchBlockedSites(userType, adminCode) {
     const blockedSitesList = document.getElementById("blockedSitesList");
     blockedSitesList.innerHTML = "<li>Loading...</li>";

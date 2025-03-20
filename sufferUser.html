@@ -2,31 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Blocked</title>
+    <title>Blocked - Enter Password</title>
     <style>
-
+        
         body {
             font-family: Arial, sans-serif;
-            background-color: #292628;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
             margin:0px;
             padding:0px;
             text-align: center;
             width: 220px;
             
         }
+        h1{
+            color: #c5c5c5;
+        }
         h2{
             padding:10  px;
             color: #c5c5c5;
-            font-size: 20px;
+            font-size: 18px;
         
         }
         .container {
             
             display: block;
-            gap: 10px;
+            gap: 2px;
             justify-content: center;
             margin: 0px;
-            padding: 10px;
+            padding: 5px;
             border-radius: 0px;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
         }
@@ -87,10 +90,12 @@
             </style>
 </head>
 <body>
-    <h2>Access Restricted</h2>
-    <p>Enter Password to Unlock</p>
-    <input type="password" id="unlockPassword" placeholder="Enter password">
-    <button id="unlockBtn">Unlock</button>
-    <script src="blockedPage.js"></script>
+    <h1>Under Admin Control</h1>
+    <h2>To Unblock enter password</h2>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <button id="submitPassword" disabled>Submit</button>
+    <p id="errorMessage" style="color: red; display: none;">Incorrect password. Try again.</p>
+
+    <script src="sufferUser.js"></script>
 </body>
 </html>

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const BlockedSite = require("../models/BlockedSite");
 
-// 📌 Get all blocked sites (Filtered by Admin, Parent, or Service Provider)
 router.get("/list", async (req, res) => {
     const { adminCode, userType, addedBy } = req.query;
 
@@ -11,21 +10,17 @@ router.get("/list", async (req, res) => {
     }
 
     try {
-        let filter = { $or: [{ category: "unproductive" }] }; // Always include unproductive sites
-
-        // If Parent, filter by their entries (now filtering by email)
+        let filter = { $or: [{ category: "unproductive" }] }; 
         if (userType === "Parent" && addedBy) {
             filter.$or.push({ userType: "Parent", addedBy });
         }
 
-        // If Service Provider, filter by adminCode
         if (userType === "ServiceProvider" && adminCode) {
             filter.$or.push({ userType: "ServiceProvider", adminCode });
         }
 
-        // If Admin, return all
         if (userType === "Admin") {
-            filter = {}; // Admins can see everything
+            filter = {};
         }
 
         const blockedSites = await BlockedSite.find(filter);
@@ -36,7 +31,6 @@ router.get("/list", async (req, res) => {
     }
 });
 
-// 📌 Add a new blocked site
 router.post("/add", async (req, res) => {
     const { url, userType, addedBy, adminCode } = req.body;
 
@@ -51,7 +45,7 @@ router.post("/add", async (req, res) => {
         const newBlockedSite = new BlockedSite({
             url,
             userType,
-            addedBy,  // ✅ Now stored as email
+            addedBy,  
             adminCode
         });
 

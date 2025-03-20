@@ -1,46 +1,49 @@
-submitButton.addEventListener("click", async function () {
-    const enteredCode = codeInput.value.trim();
-    if (!enteredCode) {
-        alert("Please enter a valid code!");
-        return;
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    const codeInput = document.getElementById("adminCodeInput");
+    const submitButton = document.getElementById("submitButton");
 
-    try {
-        // Verify code with database
-        const response = await fetch(`http://localhost:5000/api/verify-admin?code=${enteredCode}`);
-        
-        // Check if response is JSON before parsing
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new Error("Invalid response format (not JSON)");
-        }
+    codeInput.addEventListener("input", function () {
+        submitButton.disabled = !codeInput.value.trim();
+    });
 
-        const data = await response.json();
-
-        if (!response.ok || !data.valid) {
-            alert("Invalid admin code! Please try again.");
+    submitButton.addEventListener("click", async function () {
+        const enteredCode = codeInput.value.trim();
+        if (!enteredCode) {
+            alert("Please enter a valid code!");
             return;
         }
 
-        // Fetch blocked sites for this admin
-        const blockedSitesResponse = await fetch(`http://localhost:5000/api/blocked-sites?adminCode=${enteredCode}`);
-        
-        // Same JSON validation check
-        const contentType2 = blockedSitesResponse.headers.get("content-type");
-        if (!contentType2 || !contentType2.includes("application/json")) {
-            throw new Error("Invalid response format (not JSON)");
+        try {
+            // ✅ Send a POST request with JSON body
+            const response = await fetch("http://localhost:5000/api/service-provider/verify-admin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ code: enteredCode }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Server error. Try again later.");
+            }
+
+            const data = await response.json();
+
+            // ✅ Check for `data.success` instead of `data.valid`
+            if (!data.success) {
+                alert("Invalid admin code! Please try again.");
+                return;
+            }
+
+            // ✅ Store token for future use (if needed)
+            localStorage.setItem("adminToken", data.token);
+
+            // ✅ Redirect to another page
+            window.location.href = "sufferUser.html"; 
+
+        } catch (error) {
+            console.error("Error verifying admin code:", error);
+            alert("Something went wrong. Please try again later.");
         }
-
-        const blockedSites = await blockedSitesResponse.json();
-
-        // Store blocked sites in Chrome storage
-        chrome.storage.sync.set({ adminCode: enteredCode, blockedSites }, function () {
-            console.log("Admin code verified & blocked sites saved:", blockedSites);
-            window.location.href = "blocked.html"; // Redirect to blocked page
-        });
-
-    } catch (error) {
-        console.error("Error verifying admin code:", error);
-        alert("Something went wrong. Please try again later.");
-    }
+    });
 });
