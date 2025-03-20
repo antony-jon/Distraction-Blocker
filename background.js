@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 async function isSchoolOrCollege(lat, lon, radius = 1000) {
-  
+    
     const url = `https://discover.search.hereapi.com/v1/discover?in=circle:${lat},${lon};r=${radius}&q=school,university&limit=1&apiKey=${HEREPLACES_API_KEY}`;
 
     try {
