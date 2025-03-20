@@ -75,27 +75,47 @@ async function isDistractingSite(url) {
     }
 }
 
-chrome.webNavigation.onCompleted.addListener(async (details) => {
-    console.log(`Checking site: ${details.url}`);
+let processedDomains = new Set();
 
-    chrome.scripting.executeScript({
-        target: { tabId: details.tabId },
-        func: fetchLocation
-    });
+chrome.webNavigation.onCompleted.addListener(async (details) => {
+    const baseUrl = new URL(details.url).origin; // Extract base URL (e.g., "https://monkeytype.com")
+
+    if (!processedDomains.has(baseUrl)) {
+        console.log(`Checking site: ${baseUrl}`);
+        processedDomains.add(baseUrl); // Mark as processed
+
+        chrome.scripting.executeScript({
+            target: { tabId: details.tabId },
+            func: fetchLocation
+        });
+    } else {
+        console.log(`Already checked ${baseUrl}, skipping...`);
+    }
 }, { url: [{ schemes: ["http", "https"] }] });
 
+
+
 function fetchLocation() {
+    // Inject notification.css before requesting location
+    chrome.runtime.sendMessage({ type: "inject_css" });
+
     navigator.geolocation.getCurrentPosition(
         (position) => {
+            // Send location data
             chrome.runtime.sendMessage({
                 type: "location",
                 data: { latitude: position.coords.latitude, longitude: position.coords.longitude }
             });
+
+            // Remove notification.css after getting location
+            chrome.runtime.sendMessage({ type: "remove_css" });
         },
         (error) => console.error("Geolocation error:", error),
         { enableHighAccuracy: true }
     );
 }
+
+
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message === "keep_alive") {
@@ -110,3 +130,27 @@ function injectCSSFile(tabId) {
         files: ["css/blocked.css"]
     });
 }
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "inject_css") {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs.length > 0) {
+                chrome.scripting.insertCSS({
+                    target: { tabId: tabs[0].id },
+                    files: ["css/location.css"]
+                });
+            }
+        });
+    } else if (message.type === "remove_css") {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs.length > 0) {
+                chrome.scripting.removeCSS({
+                    target: { tabId: tabs[0].id },
+                    files: ["css/location.css"]
+                });
+            }
+        });
+    }
+});
+
+
