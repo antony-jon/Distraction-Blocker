@@ -1,18 +1,29 @@
 body{
     background-color: #292628;
-    margin:20px;
+    margin:0px;
     padding:0px;
     text-align: center;
+    width: 220px;
+    
     
 
 }
-#first{
+#First,#authOptions,#authOptions1{
     display: block;
+    gap: 10px;
+    justify-content: center;
+    margin: 0px;
+    padding: 10px;
+    border-radius: 0px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
+}
+#authOptions #signUpBtn{
+    font-size: 15px;
 }
 
 h4{
     padding:10  px;
-    color: #ffffff;
+    color: #c5c5c5;
     font-size: 20px;
 
 }
@@ -26,14 +37,18 @@ h4{
 
 button {
     margin: 10px;
+    width: 100px;
+    height: 40px;
     padding: 10px 20px; 
     font-size: 16px;
-    border: none;
+    border-bottom: #eedb65;
     border-radius: 50px;
-    background-color: #F5F5F5;
-    color: black;
+    background: linear-gradient(135deg, #3d3b3c, #c49e70, #f6e8d7);    background-size: 300% 300%;
+    animation: gradientMove 5s ease infinite;
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    border-bottom: 2px solid #eedb65;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -41,6 +56,7 @@ button:hover {
     background-color: #E0E0E0;
     transform: translateY(-2px);
     transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
 }
 
 button:active {
@@ -49,39 +65,62 @@ button:active {
 }
 #User{
     display: none;
-    padding: 10px 20px; 
-    font-size: 16px;
-    border: none;
-    border-radius: 50px;
-    color: #F5F5F5;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(160, 160, 160, 0.2);
+    gap: 10px;
+    justify-content: center;
+    margin: 0px;
+    padding: 10px;
+    border-radius: 0px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
     
 }
 #code{
-    display: block;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #F5F5F5;
-    color: black;
-    border-radius: 50px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.242);
+  padding: 5px 10px;
+  margin: 10px;
+  border-radius: 15px;
+  border-bottom: 2px solid transparent;
+  position: relative;
 }
 #code:hover{
-    background-color: #E0E0E0;
+    background-color: #e0e0e08f;
     transform: translateY(-1px);
     transform: scale(1.05);
 }
+#code::placeholder{
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.574);
+}
+
+
 #userSubmit{
     margin: 10px;
     padding: 10px 20px; 
     font-size: 16px;
-    border: none;
+    border-bottom: #eedb65;
     border-radius: 50px;
-    background-color: #F5F5F5;
-    color: black;
+    background: linear-gradient(135deg, #3d3b3c, #c49e70, #f6e8d7);    background-size: 300% 300%;
+    animation: gradientMove 5s ease infinite;
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    border-bottom: 2px solid #eedb65;
     transition: background-color 0.3s ease, transform 0.2s ease;
 
+}
+#userSubmit:hover{
+    background-color: #E0E0E0;
+    transform: translateY(-2px);
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+}
+#userSubmit:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
