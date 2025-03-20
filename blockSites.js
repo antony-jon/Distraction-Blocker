@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const userType = localStorage.getItem("userType"); // "Parent" or "ServiceProvider"
-    const adminCode = localStorage.getItem("adminCode"); // Only for Service Providers
-    const userId = localStorage.getItem("userId"); // User ID
+    const userType = localStorage.getItem("userType");
+    const adminCode = localStorage.getItem("adminCode");
+    const userId = localStorage.getItem("userId"); 
 
     
 
@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchBlockedSites(userType, adminCode);
 });
 
-// 📌 Add a blocked site
 async function blockSite(userType, addedBy, adminCode) {
     const url = document.getElementById("url").value;
     const messageElement = document.getElementById("message");
