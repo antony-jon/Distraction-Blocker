@@ -1,45 +1,53 @@
 body {
     background-color: #292628;
-    margin: 20px;
-    padding: 0px;
+    margin:0px;
+    padding:0px;
     text-align: center;
+    width: 220px;
 }
 
 .container {
-    background: #1e1c1f;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: block;
+    gap: 10px;
+    justify-content: center;
+    margin: 0px;
+    padding: 10px;
+    border-radius: 0px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
 }
 
 h2 {
-    color: #ffffff;
-    font-size: 22px;
-    margin-bottom: 15px;
+    padding:10  px;
+    color: #c5c5c5;
+    font-size: 20px;
 }
 
 .button-container {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
-    margin: 10px;
+    margin: 5px;
 }
 
 button {
-    padding: 12px 25px;
+    margin: 10px;
+    padding: 10px 20px; 
     font-size: 16px;
-    border: none;
+    border-bottom: #eedb65;
     border-radius: 50px;
-    background-color: #F5F5F5;
-    color: black;
+    background: linear-gradient(135deg, #3d3b3c, #c49e70, #f6e8d7);    background-size: 300% 300%;
+    animation: gradientMove 5s ease infinite;
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    border-bottom: 2px solid #eedb65;
+    transition: background-color 0.3s ease, transform 0.2s ease;}
 
 button:hover {
     background-color: #E0E0E0;
+    transform: translateY(-2px);
     transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
 }
 
 button:active {
@@ -74,4 +82,9 @@ button:active {
 #code:hover {
     background-color: #E0E0E0;
     transform: scale(1.05);
+}
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }

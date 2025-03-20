@@ -24,8 +24,8 @@ async function serviceProviderSignIn() {
         if (response.ok) {
            
             localStorage.setItem("userType", "ServiceProvider");
-            localStorage.setItem("userEmail", data.userEmail);
-            localStorage.setItem("adminCode", data.adminCode || ""); 
+            localStorage.setItem("userEmail", data.email);
+            localStorage.setItem("adminCode", data.adminCode); 
 
             messageElement.textContent = "Login successful! Redirecting...";
             messageElement.style.color = "green";
