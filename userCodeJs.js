@@ -29,17 +29,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const data = await response.json();
 
-            // ✅ Check for `data.success` instead of `data.valid`
             if (!data.success) {
                 alert("Invalid admin code! Please try again.");
                 return;
             }
 
-            // ✅ Store token for future use (if needed)
+            // ✅ Store entered code in localStorage
+            localStorage.setItem("enteredAdminCode", enteredCode);
+
+            // ✅ Store the token for authentication
             localStorage.setItem("adminToken", data.token);
 
             // ✅ Redirect to another page
-            window.location.href = "sufferUser.html"; 
+            window.location.href = "sufferUser.html";
 
         } catch (error) {
             console.error("Error verifying admin code:", error);

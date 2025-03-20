@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/parent/verify-password", {
+            const response = await fetch("http://localhost:5000/api/service-provider/verify-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({email : localStorage.getItem("userEmail"), password: enteredPassword })
+                body: JSON.stringify({code : localStorage.getItem("enteredAdminCode"), password: enteredPassword })
             });
 
             let data;

@@ -56,7 +56,7 @@ router.post("/verify-admin", async (req, res) => {
     const { code } = req.body; 
 
     try {
-        const admin = await ServiceProvider.findOne({uniqueCode: code  });
+        const admin = await ServiceProvider.findOne({uniqueCode: String(code)  });
 
         if (!admin) {
             return res.status(400).json({ success: false, message: "Invalid code" });
@@ -70,5 +70,34 @@ router.post("/verify-admin", async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
+router.post("/verify-password", async (req, res) => {
+    const { code ,password } = req.body;
+
+    try {
+   
+        const provider = await ServiceProvider.findOne({ uniqueCode: code  });
+
+        if (!provider) {
+            return res.status(400).json({ success: false, message: "Invalid password" });
+        }
+
+    
+        const isMatch = await bcrypt.compare(password, provider.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Invalid Password" });
+        }
+
+      
+        const token = jwt.sign({ id: provider._id }, "yourSecretKey", { expiresIn: "1h" });
+
+        res.json({ success: true, message: "Unblocked", token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
 
 module.exports = router;
