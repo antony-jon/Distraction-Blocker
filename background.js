@@ -56,20 +56,6 @@ async function isSchoolOrCollege(lat, lon, radius = 1000) {
         return "Error";
     }
 }
-
-// // Example Usage
-// const latitude = 12.971598;
-// const longitude = 77.594566;
-
-// isSchoolOrCollegeNearby(latitude, longitude).then(console.log);
-
-
-// // Example usage
-// const latitude = 12.971598;  // Example: Bangalore
-// const longitude = 77.594566;
-
-// isSchoolOrCollegeNearby(latitude, longitude).then(console.log);
-
 // async function isSchoolOrCollege(location) {
 //     const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is there a school or college within radius of 1km ? Respond with "yes" or "no".`;
 
