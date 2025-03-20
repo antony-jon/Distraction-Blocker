@@ -1,17 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userType = localStorage.getItem("userType");
-    const adminCode = localStorage.getItem("adminCode");
-    const userId = localStorage.getItem("userId"); 
+    const adminCode = localStorage.getItem("adminCode") ; // Ensure it's at least an empty string
+    const userEmail = localStorage.getItem("userEmail"); // Use email instead of userId
 
-    
+    if (!userType || !userEmail) {
+        console.log("Missing authentication details, redirecting...");
+        window.location.href = "parentSignIn.html";
+        return;
+    }    
 
-    document.getElementById("blockSiteButton").addEventListener("click", () => blockSite(userType, userId, adminCode));
-    
+    document.getElementById("blockSiteButton").addEventListener("click", () => blockSite(userType, userEmail, adminCode));
+
     fetchBlockedSites(userType, adminCode);
 });
 
 async function blockSite(userType, addedBy, adminCode) {
-    const url = document.getElementById("url").value;
+    const url = document.getElementById("url").value.trim();
     const messageElement = document.getElementById("message");
 
     if (!url) {
@@ -20,11 +24,18 @@ async function blockSite(userType, addedBy, adminCode) {
         return;
     }
 
+    if (!addedBy) {
+        console.error("User email (addedBy) is missing!");
+        messageElement.textContent = "Error: Missing user information!";
+        messageElement.style.color = "red";
+        return;
+    }
+
     try {
         const response = await fetch("http://localhost:5000/api/sites/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url, userType, addedBy, adminCode }),
+            body: JSON.stringify({ url, userType, addedBy, adminCode }), // Using email as addedBy
         });
 
         const data = await response.json();
@@ -37,7 +48,7 @@ async function blockSite(userType, addedBy, adminCode) {
             messageElement.style.color = "red";
         }
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error blocking site:", error);
         messageElement.textContent = "Server error, please try again!";
         messageElement.style.color = "red";
     }
@@ -49,7 +60,7 @@ async function fetchBlockedSites(userType, adminCode) {
     blockedSitesList.innerHTML = "<li>Loading...</li>";
 
     try {
-        const response = await fetch(`http://localhost:5000/api/sites/list?userType=${userType}&adminCode=${adminCode || ""}`);
+        const response = await fetch(`http://localhost:5000/api/sites/list?userType=${userType}&adminCode=${adminCode}`);
         const data = await response.json();
 
         if (data.success) {
@@ -63,7 +74,7 @@ async function fetchBlockedSites(userType, adminCode) {
             blockedSitesList.innerHTML = "<li>Error loading sites</li>";
         }
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching blocked sites:", error);
         blockedSitesList.innerHTML = "<li>Server error!</li>";
     }
 }

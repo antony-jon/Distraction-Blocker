@@ -18,9 +18,8 @@ document.getElementById("signInForm").addEventListener("submit", async function 
 
         if (data.success) {
             localStorage.setItem("userType", "Parent");
-            localStorage.setItem("userEmail", data.email);
-            alert("Sign in successful!");
-            window.location.href = ""; ///////////////////////////////////////////////////////////WAIT fixing
+            localStorage.setItem("userEmail", email);
+            window.location.href = "Suffer.html"; 
         } else {
             errorMessage.textContent = data.message;
             errorMessage.style.display = "block";
