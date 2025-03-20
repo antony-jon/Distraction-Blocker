@@ -1,7 +1,7 @@
 import CONFIG from './config.js';
 const GEMINI_API_KEY = CONFIG.GEMINI_API_KEY;
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"; 
-
+const HEREPLACES_API_KEY=CONFIG.HEREPLACES_API_KEY;
 
 chrome.alarms.create("keepAlive", { periodInMinutes: 4 });
 chrome.alarms.onAlarm.addListener((alarm) => {
@@ -31,49 +31,18 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 async function isSchoolOrCollege(lat, lon, radius = 1000) {
-    const overpassUrl = "https://overpass-api.de/api/interpreter";
-    
-    // Overpass QL query to find schools and universities within the given radius
-    const query = `
-        [out:json];
-        (
-            node["amenity"="school"](around:${radius}, ${lat}, ${lon});
-            node["amenity"="university"](around:${radius}, ${lat}, ${lon});
-        );
-        out body;
-    `;
-    
-    const url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
+  
+    const url = `https://discover.search.hereapi.com/v1/discover?in=circle:${lat},${lon};r=${radius}&q=school,university&limit=1&apiKey=${HEREPLACES_API_KEY}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-
-        // If results are found, return "Yes", otherwise return "No"
-        return data.elements.length > 0 ? true : false;
+        return data.items.length > 0 ? true : false; 
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error:", error);
         return "Error";
-    }
+    }
 }
-// async function isSchoolOrCollege(location) {
-//     const query = `Given these coordinates: ${location.latitude}, ${location.longitude}, is there a school or college within radius of 1km ? Respond with "yes" or "no".`;
-
-//     try {
-//         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ contents: [{ parts: [{ text: query }] }] })
-//         });
-
-//         const data = await response.json();
-//         const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toLowerCase();
-//         return answer === "yes";
-//     } catch (error) {
-//         console.error("Error checking school/college status:", error);
-//         return false;
-//     }
-// }
 
 async function isDistractingSite(url) {
     const query = `Is the following website is a social media or unproductive for students in school or college? ${url}. Respond with "yes" or "no".`;
