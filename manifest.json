@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "AI Web Blocker",
+    "name": "Distraction Blocker",
     "version": "1.0",
-    "description": "Blocks unsafe websites using AI analysis.",
-    "permissions": ["storage", "scripting", "webNavigation", "tabs", "alarms"],
+    "description": "Blocks unproductive sites based on AI analysis.",
+    "permissions": ["tabs", "storage", "scripting", "alarms", "webNavigation"],
     "host_permissions": ["<all_urls>"],
     "background": {
         "service_worker": "background.js",

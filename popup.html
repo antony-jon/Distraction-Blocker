@@ -3,19 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Web Blocker</title>
+    <title>Distraction Blocker</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; width: 250px; }
-        h1 { font-size: 18px; }
-        #status { margin-top: 10px; font-weight: bold; }
-        button { padding: 8px; margin-top: 10px; cursor: pointer; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #121212;
+            color: white;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: #555;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .toggle-switch::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s ease-in-out;
+        }
+
+        .toggle-switch.active {
+            background: #00c853;
+        }
+
+        .toggle-switch.active::before {
+            left: 28px;
+        }
+
+        .toggle-text {
+            color: red;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .toggle-switch.active + .toggle-text {
+            color: #00c853;
+        }
+
+        .footer {
+            font-size: 12px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
-    <h1>AI Web Blocker</h1>
-    <p id="status">Checking website...</p>
-    <button id="checkSite">Check Again</button>
-
+    <h3>🚀 Distraction Blocker</h3>
+    <div class="toggle-container">
+        <span class="toggle-text" id="toggleText">OFF</span>
+        <div id="toggle" class="toggle-switch"></div>
+    </div>
+    <div class="footer">🔒 Stay Focused & Be Productive!</div>
     <script src="popup.js"></script>
 </body>
 </html>

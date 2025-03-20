@@ -11,30 +11,39 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-// Monitor website visits and check if it's safe
+// Monitor website visits, but only when blocking is enabled
 chrome.webNavigation.onCompleted.addListener(async (details) => {
     if (!details.url.startsWith("http")) return; // Ignore non-HTTP(S) requests
 
-    console.log(`Checking site: ${details.url}`);
-
-    try {
-        const isUnsafe = await isWebsiteUnsafe(details.url);
-        console.log(`URL: ${details.url} | Safe? ${!isUnsafe}`);
-
-        if (isUnsafe) {
-            console.log(`Blocking: ${details.url}`);
-
-            // Inject warning message before closing
-            injectBlockedMessage(details.tabId);
-
-            console.log("Waiting for 3 seconds before closing the tab");
-            setTimeout(() => {
-                chrome.tabs.remove(details.tabId);
-            }, 3000);
+    // Check if blocking is enabled before proceeding
+    chrome.storage.local.get("blockingEnabled", async (data) => {
+        if (!data.blockingEnabled) {
+            console.log("Blocking is OFF. Skipping check for:", details.url);
+            return; // Exit if blocking is disabled
         }
-    } catch (error) {
-        console.error("Error in processing URL:", error);
-    }
+
+        console.log(`Checking site: ${details.url}`);
+
+        try {
+            const isUnsafe = await isWebsiteUnsafe(details.url);
+            console.log(`URL: ${details.url} | Safe? ${!isUnsafe}`);
+
+            if (isUnsafe) {
+                console.log(`Blocking: ${details.url}`);
+
+                // Inject warning message before closing
+                injectBlockedMessage(details.tabId);
+
+                console.log("Waiting for 3 seconds before closing the tab");
+                setTimeout(() => {
+                    chrome.tabs.remove(details.tabId);
+                }, 3000);
+            }
+        } catch (error) {
+            console.error("Error in processing URL:", error);
+        }
+    });
+
 }, { url: [{ schemes: ["http", "https"] }] });
 
 // Check if a website is unsafe using Gemini API
