@@ -20,6 +20,10 @@ body{
 #authOptions #signUpBtn{
     font-size: 12px;
 }
+#authOptions1  #signUpBtn,#signInBtn{
+    padding: 10px;
+    font-size: 13px;
+}
 
 h4{
     padding:10  px;

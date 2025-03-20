@@ -59,4 +59,33 @@ router.post("/signin", async (req, res) => {
     }
 });
 
+router.post("/verify-password", async (req, res) => {
+    const { email,password } = req.body;
+
+    try {
+        // Check if parent exists
+        const parent = await Parent.findOne({ email });
+
+        if (!parent) {
+            return res.status(400).json({ success: false, message: "Invalid password" });
+        }
+
+        // Compare passwords
+        const isMatch = await bcrypt.compare(password, parent.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Invalid Password" });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: parent._id }, "yourSecretKey", { expiresIn: "1h" });
+
+        res.json({ success: true, message: "Unblocked", token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+
 module.exports = router;

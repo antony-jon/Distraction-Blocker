@@ -16,6 +16,30 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         const location = message.data;
         console.log("Received location:", location);
 
+        const atSchool = await isSchoolOrCollege(location.latitude,location.longitude);
+        console.log(`User at school/college: ${atSchool}`);
+
+        if (atSchool) {
+            const isDistracting = await isDistractingSite(sender.url);
+            console.log(`Is ${sender.url} distracting: ${isDistracting}`);
+
+            if (isDistracting) {
+                console.log(`Blocking site: ${sender.url}`);
+                injectCSSFile(sender.tab.id);
+                console.log("Waiting for 3 seconds before closing the tab");
+                setTimeout(() => {
+                    chrome.tabs.remove(sender.tab.id);
+                }, 3000);
+            }
+        }
+    }
+});
+
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    if (message.type === "location") {
+        const location = message.data;
+        console.log("Received location:", location);
+
         const atSchool = await isSchoolOrCollege(location);
         console.log(`User at school/college: ${atSchool}`);
 
@@ -102,3 +126,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ status: "alive" });
     }
 });
+function injectCSSFile(tabId) {
+    chrome.scripting.insertCSS({
+        target: { tabId: tabId },
+        files: ["css/blocked.css"]
+    });
+}
