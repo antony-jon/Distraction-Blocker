@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>
-        Distraction Blocker
-    </title>
-    <link rel="stylesheet" href="popupStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Web Blocker</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; width: 250px; }
+        h1 { font-size: 18px; }
+        #status { margin-top: 10px; font-weight: bold; }
+        button { padding: 8px; margin-top: 10px; cursor: pointer; }
+    </style>
 </head>
-
 <body>
-    <div id="First">
-    <h4>Distraction Blocker</h4>
-        <button id="admin">Admin</button>
-        <button id="user">User</button>
-    </div>
+    <h1>AI Web Blocker</h1>
+    <p id="status">Checking website...</p>
+    <button id="checkSite">Check Again</button>
 
-    <div id="User">
-        <h2>Enter Admin code</h2>
-        <input id="code" type="text" placeholder="Enter">
-        <button id="userSubmit">Enter</button>
-    </div>
-
-
-    <script src="popupJs.js"></script>
-   
+    <script src="popup.js"></script>
 </body>
-
 </html>
