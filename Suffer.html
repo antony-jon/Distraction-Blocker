@@ -3,10 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Blocked - Enter Password</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
+            margin:0px;
+            padding:0px;
+            text-align: center;
+            width: 220px;
+            
+        }
+        h1{
+            color: #c5c5c5;
+        }
+        h2{
+            padding:10  px;
+            color: #c5c5c5;
+            font-size: 18px;
+        
+        }
+        .container {
+            
+            display: block;
+            gap: 2px;
+            justify-content: center;
+            margin: 0px;
+            padding: 5px;
+            border-radius: 0px;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
+        }
+        input {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.242);
+            padding: 5px 10px;
+            margin: 10px;
+            border-radius: 15px;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+        input:hover{
+            background-color: #e0e0e08f;
+            transform: translateY(-1px);
+            transform: scale(1.05);
+        }
+        input::placeholder{
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.574);
+        
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px; 
+            font-size: 16px;
+            border-bottom: #eedb65;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #3d3b3c, #c49e70, #f6e8d7);    background-size: 300% 300%;
+            animation: gradientMove 5s ease infinite;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            border-bottom: 2px solid #eedb65;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+             background-color: #E0E0E0;
+            transform: translateY(-2px);
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+        }
+        button:active{
+            
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+            </style>
 </head>
 <body>
-    <h2>Enter Password to Turn Off</h2>
-    <input type="password" id="passwordInput" placeholder="Enter Password">
+    <h1>Under Parental Control</h1>
+    <h2>To Unblock enter password</h2>
+    <input type="password" id="passwordInput" placeholder="Password">
     <button id="submitPassword" disabled>Submit</button>
     <p id="errorMessage" style="color: red; display: none;">Incorrect password. Try again.</p>
 
