@@ -28,10 +28,10 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             if (isDistracting) {
                 console.log(`Blocking site: ${sender.url}`);
                 injectCSSFile(sender.tab.id);
+                console.log("Waiting for 3 seconds before closing the tab");
                 setTimeout(() => {
-                    console.log("After 2 seconds delay");
                     chrome.tabs.remove(sender.tab.id);
-                }, 2000);
+                }, 3000);
             }
         }
     }
