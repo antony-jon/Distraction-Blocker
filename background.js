@@ -146,6 +146,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 
+
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     if (message.type === "location") {
         const location = message.data;
@@ -178,7 +179,9 @@ async function isSchoolOrCollege(lat, lon, radius = 1000) {
         const response = await fetch(url);
         const data = await response.json();
         return data.items.length > 0 ? true : false; 
+        return data.items.length > 0 ? true : false; 
     } catch (error) {
+        console.error("Error:", error);
         console.error("Error:", error);
         return "Error";
     }
@@ -227,7 +230,30 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
         if (!processedDomains.has(baseUrl)) {
             console.log(`Checking base URL: ${baseUrl} (productive site)`);
             processedDomains.add(baseUrl);
+    const baseUrl = new URL(details.url).origin; // Extract base URL
 
+    // Check if site is distracting
+    const isDistracting = await isDistractingSite(details.url);
+
+    if (isDistracting) {
+        console.log(`Checking sub-URL: ${details.url} (unproductive site)`);
+        chrome.scripting.executeScript({
+            target: { tabId: details.tabId },
+            func: fetchLocation
+        });
+    } else {
+        if (!processedDomains.has(baseUrl)) {
+            console.log(`Checking base URL: ${baseUrl} (productive site)`);
+            processedDomains.add(baseUrl);
+
+            chrome.scripting.executeScript({
+                target: { tabId: details.tabId },
+                func: fetchLocation
+            });
+        } else {
+            console.log(`Skipping check for ${baseUrl}, already processed.`);
+        }
+    }
             chrome.scripting.executeScript({
                 target: { tabId: details.tabId },
                 func: fetchLocation
@@ -240,12 +266,18 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
 
 
 
+
+
 function fetchLocation() {
+    
+    chrome.runtime.sendMessage({ type: "inject_css" });
+
     
     chrome.runtime.sendMessage({ type: "inject_css" });
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
+          
           
             chrome.runtime.sendMessage({
                 type: "location",
@@ -253,11 +285,15 @@ function fetchLocation() {
             });
 
             chrome.runtime.sendMessage({ type: "remove_css" });
+
+            chrome.runtime.sendMessage({ type: "remove_css" });
         },
         (error) => console.error("Geolocation error:", error),
         { enableHighAccuracy: true }
     );
 }
+
+
 
 
 
