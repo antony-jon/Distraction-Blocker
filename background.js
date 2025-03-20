@@ -77,18 +77,29 @@ async function isDistractingSite(url) {
 let processedDomains = new Set();
 
 chrome.webNavigation.onCompleted.addListener(async (details) => {
-    const baseUrl = new URL(details.url).origin; 
+    const baseUrl = new URL(details.url).origin; // Extract base URL
 
-    if (!processedDomains.has(baseUrl)) {
-        console.log(`Checking site: ${baseUrl}`);
-        processedDomains.add(baseUrl); 
+    // Check if site is distracting
+    const isDistracting = await isDistractingSite(details.url);
 
+    if (isDistracting) {
+        console.log(`Checking sub-URL: ${details.url} (unproductive site)`);
         chrome.scripting.executeScript({
             target: { tabId: details.tabId },
             func: fetchLocation
         });
     } else {
-        console.log(`Already checked ${baseUrl}, skipping...`);
+        if (!processedDomains.has(baseUrl)) {
+            console.log(`Checking base URL: ${baseUrl} (productive site)`);
+            processedDomains.add(baseUrl);
+
+            chrome.scripting.executeScript({
+                target: { tabId: details.tabId },
+                func: fetchLocation
+            });
+        } else {
+            console.log(`Skipping check for ${baseUrl}, already processed.`);
+        }
     }
 }, { url: [{ schemes: ["http", "https"] }] });
 
