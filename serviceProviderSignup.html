@@ -9,7 +9,7 @@
      
              body {
     font-family: Arial, sans-serif;
-    background-color: #292628;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
     margin:0px;
     padding:0px;
     text-align: center;
@@ -55,7 +55,7 @@ input::placeholder{
     font-size: 12px;
     color: rgba(255, 255, 255, 0.574);
 }
-#button {
+button {
     margin: 10px;
     padding: 10px 20px; 
     font-size: 12px;
@@ -70,13 +70,13 @@ input::placeholder{
     transition: background-color 0.3s ease, transform 0.2s ease;
    
 }
-#button:hover {
+button:hover {
      background-color: #E0E0E0;
     transform: translateY(-2px);
     transform: scale(1.1);
     box-shadow: 0 6px 15px rgba(0,0,0,0.6);
 }
-#button:active{
+button:active{
     
     transform: translateY(1px);
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -94,13 +94,11 @@ input::placeholder{
     <script src="serviceProviderSignup.js" defer></script>
 </head>
 <body>
-    <h2>Service Provider Signup</h2>
+    <h2>Signup</h2>
     <form id="signupForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required><br><br>
+        <input type="email" id="email" placeholder="Email" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" required><br><br>
+        <input type="password" id="password" placeholder="password" required>
 
         <button type="button" id="signupButton">Sign Up</button>
     </form>
