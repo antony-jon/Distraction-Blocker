@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const signUpButton = document.getElementById("signUpBtn1");
-    const signInButton = document.getElementById("signInBtn1");
+    const signUpButton = document.getElementById("signUpBtn");
+    const signInButton = document.getElementById("signInBtn");
 
     // Redirect to sign-up page
     signUpButton.addEventListener("click", function () {

@@ -52,4 +52,25 @@ router.post("/signin", async (req, res) => {
     }
 });
 
+router.post("/bloCode", async (req, res) => {
+    const { code } = req.body;
+
+    try {
+        const serviceProvider = await ServiceProvider.findMany({code });
+        if (!serviceProvider) {
+            return res.status(400).json({ message: "User not found!" });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, serviceProvider.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid credentials!" });
+        }
+
+        res.status(200).json({ message: "Login successful!", uniqueCode: serviceProvider.uniqueCode });
+    } catch (error) {
+        res.status(500).json({ message: "Server error, please try again later." });
+    }
+});
+
 module.exports = router;
