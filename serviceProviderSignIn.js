@@ -22,10 +22,15 @@ async function serviceProviderSignIn() {
 
         const data = await response.json();
         if (response.ok) {
+           
+            localStorage.setItem("userType", "ServiceProvider");
+            localStorage.setItem("userEmail", data.userEmail);
+            localStorage.setItem("adminCode", data.adminCode || ""); 
+
             messageElement.textContent = "Login successful! Redirecting...";
             messageElement.style.color = "green";
             setTimeout(() => {
-                window.location.href = "blockSites.html";
+                window.location.href = "blockSites.html"; 
             }, 2000);
         } else {
             messageElement.textContent = data.message;

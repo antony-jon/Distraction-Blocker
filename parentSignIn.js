@@ -3,6 +3,7 @@ document.getElementById("signInForm").addEventListener("submit", async function 
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const errorMessage = document.getElementById("errorMessage");
 
     try {
         const response = await fetch("http://localhost:5000/api/parent/signin", {
@@ -16,15 +17,17 @@ document.getElementById("signInForm").addEventListener("submit", async function 
         const data = await response.json();
 
         if (data.success) {
+            localStorage.setItem("userType", "Parent");
+            localStorage.setItem("userEmail", data.email);
             alert("Sign in successful!");
-            window.location.href = "blockSites.html";  // Redirect to dashboard
+            window.location.href = ""; ///////////////////////////////////////////////////////////WAIT fixing
         } else {
-            document.getElementById("errorMessage").textContent = data.message;
-            document.getElementById("errorMessage").style.display = "block";
+            errorMessage.textContent = data.message;
+            errorMessage.style.display = "block";
         }
     } catch (error) {
         console.error("Error:", error);
-        document.getElementById("errorMessage").textContent = "Server error. Try again later.";
-        document.getElementById("errorMessage").style.display = "block";
+        errorMessage.textContent = "Server error. Try again later.";
+        errorMessage.style.display = "block";
     }
 });
