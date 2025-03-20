@@ -4,7 +4,6 @@ const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/
 
 
 chrome.alarms.create("keepAlive", { periodInMinutes: 4 });
-
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "keepAlive") {
         console.log("Keeping service worker alive...");
@@ -17,8 +16,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         const location = message.data;
         console.log("Received location:", location);
 
-        // const atSchool = await isSchoolOrCollege(location.latitude, location.longitude);
-        const atSchool = true;
+        const atSchool = await isSchoolOrCollege(location.latitude,location.longitude);
         console.log(`User at school/college: ${atSchool}`);
 
         if (atSchool) {
@@ -37,7 +35,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     }
 });
 
-async function isSchoolOrCollege(lat, lon, radius = 2000) {
+async function isSchoolOrCollege(lat, lon, radius = 1000) {
     const overpassUrl = "https://overpass-api.de/api/interpreter";
     
     // Overpass QL query to find schools and universities within the given radius
@@ -65,7 +63,7 @@ async function isSchoolOrCollege(lat, lon, radius = 2000) {
 }
 
 async function isDistractingSite(url) {
-    const query = `Is the following website unproductive for students in school or college? ${url}. Respond with "yes" or "no".`;
+    const query = `Is the following website is a social media or unproductive for students in school or college? ${url}. Respond with "yes" or "no".`;
 
     try {
         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
@@ -73,18 +71,21 @@ async function isDistractingSite(url) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: [{ text: query }] }] })
         });
-
+        
         const data = await response.json();
+        console.log(data);
         const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toLowerCase();
         if (answer === "yes") {
             console.log(`🚫 The site ${url} is UNPRODUCTIVE.`);
-        } else {
+        } else if(answer === "no"){
             console.log(`✅ The site ${url} is PRODUCTIVE.`);
         }
         return answer === "yes";
+        // return true;
     } catch (error) {
         console.error("Error checking site status:", error);
         return false;
+        // return true;
     }
 }
 
