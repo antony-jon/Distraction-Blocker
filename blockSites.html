@@ -4,18 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blocked Sites</title>
-    <script defer src="blockSites.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            width: 220px;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        h2 {
+            padding: 10px;
+            color: #c5c5c5;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        input {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            margin: 10px;
+            border-radius: 15px;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+
+        input::placeholder {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 12px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #3d3b3c, #c49e70, #f6e8d7);
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+        }
+
+        h3 {
+            color: #ffffff;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 5px;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+
+        li {
+            color: #ffffff;
+            font-size: 14px;
+            padding: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
     <h2>Block a Website</h2>
     
-    <label for="url">Enter URL:</label>
-    <input type="text" id="url" placeholder="https://example.com">
+    <input type="text" id="url" placeholder="Enter url">
     <button id="blockSiteButton">Block</button>
 
     <p id="message"></p>
 
     <h3>Blocked Websites</h3>
     <ul id="blockedSitesList"></ul>
+
+    <script src="blockSites.js"></script>
 </body>
 </html>
