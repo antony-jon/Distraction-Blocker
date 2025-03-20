@@ -18,7 +18,11 @@ body{
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #3e4c7c, #6b6bbf);
 }
 #authOptions #signUpBtn{
-    font-size: 15px;
+    font-size: 12px;
+}
+#authOptions1  #signUpBtn,#signInBtn{
+    padding: 10px;
+    font-size: 13px;
 }
 
 h4{
